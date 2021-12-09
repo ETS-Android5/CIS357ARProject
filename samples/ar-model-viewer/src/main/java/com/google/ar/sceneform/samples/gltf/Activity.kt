@@ -10,9 +10,9 @@ class Activity : AppCompatActivity(R.layout.activity) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setSupportActionBar(findViewById<Toolbar>(R.id.toolbar).apply {
+        /*setSupportActionBar(findViewById<Toolbar>(R.id.toolbar).apply {
             title = ""
-        })
+        })*/
 
         supportFragmentManager.commit {
             add(R.id.containerFragment, MainFragment::class.java, Bundle())
