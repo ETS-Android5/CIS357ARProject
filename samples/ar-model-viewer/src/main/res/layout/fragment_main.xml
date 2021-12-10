@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:duplicateParentState="false"
         android:text="Change Me"
-        android:textAlignment="center" />
+        android:textAlignment="textEnd" />
 
     <Button
         android:id="@+id/animateModel"

@@ -18,6 +18,7 @@ import com.google.ar.sceneform.SceneView
 import com.google.ar.sceneform.math.Vector3
 import com.google.ar.sceneform.rendering.ModelRenderable
 import com.google.ar.sceneform.rendering.Renderable
+import com.google.ar.sceneform.rendering.RenderableInstance
 import com.google.ar.sceneform.rendering.ViewRenderable
 import com.google.ar.sceneform.ux.ArFragment
 import com.google.ar.sceneform.ux.TransformableNode
@@ -33,6 +34,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private var model2: Renderable? = null
     private var modelInUse: Renderable? = null
     private lateinit var modelView: ViewRenderable
+
+    private var renderedInstance: RenderableInstance? = null
 
     val anchors = mutableListOf<Anchor>()
 
@@ -51,6 +54,10 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
                newModel.setOnClickListener() { v: View? ->
                     switchView()
+                }
+
+                animateModel.setOnClickListener() { v: View? ->
+                    animateMethod()
                 }
             }
             setOnTapArPlaneListener(::onTapPlane)
@@ -88,8 +95,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     }
 
 
-    
-
     private fun onTapPlane(hitResult: HitResult, plane: Plane, motionEvent: MotionEvent) {
         if (modelInUse == null || modelView == null) {
             Toast.makeText(context, "Loading...", Toast.LENGTH_SHORT).show()
@@ -104,14 +109,17 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
             anchors.add(anchor1)
 
-            if (anchors.size > 1) {
+            if (anchors.size > 2) {
                 anchors[0].detach()
                 anchors.removeAt(0)
             }
 
             addChild(TransformableNode(arFragment.transformationSystem).apply {
                 renderable = modelInUse
-                //renderableInstance.animate(true).start()
+                renderedInstance = renderableInstance
+
+                //renderedInstance?.animate(false)?.start()
+
 
                 // Add the View
                 addChild(Node().apply {
@@ -122,5 +130,9 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                 })
             })
         })
+    }
+
+    private fun animateMethod() {
+        renderedInstance?.animate(true)?.start()
     }
 }
